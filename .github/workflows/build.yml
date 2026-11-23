@@ -27,7 +27,7 @@ jobs:
         run: |
           chmod +x gradlew
           ./gradlew assembleRelease --stacktrace
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@v7
         with:
           name: lin-term-release-unsigned
           path: app/build/outputs/apk/release/*.apk
