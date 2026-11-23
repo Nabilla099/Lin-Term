@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="lin_bg">#FFF4D6</color>
+    <color name="lin_ink">#000000</color>
+    <color name="lin_dark">#141414</color>
+    <color name="lin_yellow">#FFE14D</color>
+    <color name="lin_pink">#FF6FB5</color>
+    <color name="lin_blue">#4D9DFF</color>
+    <color name="lin_green">#6BFF8E</color>
+    <color name="lin_white">#FFFFFF</color>
+</resources>

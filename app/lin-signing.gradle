@@ -1,0 +1,21 @@
+// Dipakai lewat: apply from: 'lin-signing.gradle' (paling bawah app/build.gradle)
+// Aktif hanya jika env KEYSTORE_PATH ada (GitHub Actions / build lokal).
+def linKeystore = System.getenv("KEYSTORE_PATH")
+
+if (linKeystore && file(linKeystore).exists()) {
+    android {
+        signingConfigs {
+            lin {
+                storeFile file(linKeystore)
+                storePassword System.getenv("KEYSTORE_PASSWORD")
+                keyAlias System.getenv("KEY_ALIAS")
+                keyPassword System.getenv("KEY_PASSWORD")
+            }
+        }
+        buildTypes {
+            release { signingConfig signingConfigs.lin }
+        }
+    }
+} else {
+    println "[lin-signing] KEYSTORE_PATH tidak diset -> APK release TIDAK ditandatangani"
+}

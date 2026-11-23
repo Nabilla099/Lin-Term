@@ -1,0 +1,33 @@
+name: Build check
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: gradle
+      - name: Install NDK
+        run: |
+          NDK="$(grep '^ndkVersion=' gradle.properties | cut -d= -f2)"
+          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses >/dev/null || true
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "ndk;$NDK"
+      - name: Build release (unsigned check)
+        env:
+          TERMUX_SPLIT_APKS_FOR_RELEASE_BUILDS: '1'
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleRelease --stacktrace
+      - uses: actions/upload-artifact@v6
+        with:
+          name: lin-term-release-unsigned
+          path: app/build/outputs/apk/release/*.apk
